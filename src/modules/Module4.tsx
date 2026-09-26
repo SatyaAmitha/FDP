@@ -182,7 +182,7 @@ export default function Module4() {
                 className="h-auto w-full object-contain"
               />
               <figcaption className="border-t border-teal-ink/10 px-4 py-3 text-xs text-ink/55">
-                Diagram credit: Habib Shaikh / AIKaDoctor — Agentic Design Patterns (for FDP teaching use with attribution).
+                Agentic Design Patterns overview — used for FDP Module 4 teaching.
               </figcaption>
             </figure>
 
