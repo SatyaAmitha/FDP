@@ -14,7 +14,7 @@ interface SyllabusTopic {
   detail: string
 }
 
-/** PDF Module 4 topics that the diagram does not fully teach on its own. */
+/** Extra Module 4 concepts beyond the six diagram panels. */
 const SYLLABUS_EXTRAS: SyllabusTopic[] = [
   {
     title: 'Planning & reasoning',
@@ -61,8 +61,8 @@ const SYLLABUS_EXTRAS: SyllabusTopic[] = [
 ]
 
 const ARCHITECTURE = [
-  { title: 'Goal / planner', detail: 'Planning & reasoning from the FDP syllabus.' },
-  { title: 'Memory', detail: 'Short-term + long-term context.' },
+  { title: 'Goal / planner', detail: 'Planning and reasoning before action.' },
+  { title: 'Memory', detail: 'Short-term and long-term context.' },
   { title: 'Tools / MCP', detail: 'Function calling and external systems.' },
   { title: 'Evaluator + guardrails', detail: 'Quality checks and safety rails.' },
 ]
@@ -143,16 +143,16 @@ export default function Module4() {
       <ModuleHero
         moduleNumber={4}
         title="Agentic AI + Design Patterns"
-        tagline="FDP Module 4: agent fundamentals, the six design-pattern diagram, then a live ReAct-style teaching agent."
+        tagline="Agent fundamentals, design patterns, and a live ReAct teaching demo."
       />
       <ModuleBody>
         <div className="space-y-12">
           <ProviderPicker value={provider} onChange={setProvider} />
 
           <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-teal-ink/10">
-            <h2 className="font-display text-2xl text-teal-ink">Agent architecture (fundamentals)</h2>
+            <h2 className="font-display text-2xl text-teal-ink">Agent architecture</h2>
             <p className="mt-2 text-sm text-ink/70">
-              From the FDP PDF: Agentic AI does not only answer — it plans, uses tools, keeps memory, and can ask for human approval.
+              An agent does more than answer — it plans, uses tools, keeps memory, and can ask for human approval.
             </p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {ARCHITECTURE.map((item) => (
@@ -165,9 +165,9 @@ export default function Module4() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">Design patterns gallery</h2>
+            <h2 className="font-display text-2xl text-teal-ink">Design patterns</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Six agentic design patterns for FDP Module 4 — the diagram is the teaching visual.
+              Six common agentic design patterns used in modern AI systems.
             </p>
 
             <figure className="mt-5 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-teal-ink/10">
@@ -177,15 +177,15 @@ export default function Module4() {
                 className="h-auto w-full object-contain"
               />
               <figcaption className="border-t border-teal-ink/10 px-4 py-3 text-xs text-ink/55">
-                Agentic Design Patterns overview — used for FDP Module 4 teaching.
+                Agentic design patterns overview
               </figcaption>
             </figure>
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">Also in the FDP PDF (not only on the diagram)</h2>
+            <h2 className="font-display text-2xl text-teal-ink">Key concepts</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Module 4 syllabus items beyond the six GIF panels — cover these in the session.
+              Building blocks that make agents reliable in real teaching and research workflows.
             </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {SYLLABUS_EXTRAS.map((topic) => (
@@ -198,17 +198,17 @@ export default function Module4() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">Simulated ReAct agent</h2>
+            <h2 className="font-display text-2xl text-teal-ink">ReAct demo</h2>
             <p className="mt-2 text-ink/70">
-              Hands-on for the PDF “ReAct pattern”: Thought → Action → Observation on a faculty lecture-pack task.
+              Watch Thought → Action → Observation, then run a live agent for a lecture-pack task.
             </p>
             <button
               type="button"
               onClick={startRun}
               className="mt-4 rounded-md bg-white px-4 py-2 text-sm font-semibold text-teal-ink ring-1 ring-teal-ink/20 hover:bg-teal-soft focus:outline-none focus:ring-2 focus:ring-teal-mid"
-              aria-label="Replay ReAct pattern"
+              aria-label="Replay walkthrough"
             >
-              {running ? 'Running pattern…' : 'Replay ReAct pattern'}
+              {running ? 'Running…' : 'Replay walkthrough'}
             </button>
             <button
               type="button"
@@ -217,7 +217,7 @@ export default function Module4() {
               className="ml-3 mt-4 rounded-md bg-teal-ink px-4 py-2 text-sm font-semibold text-white hover:bg-teal-mid focus:outline-none focus:ring-2 focus:ring-teal-mid disabled:opacity-60"
               aria-label="Run agent"
             >
-              {isLoading ? 'Running agent…' : 'Run agent'}
+              {isLoading ? 'Running…' : 'Run agent'}
             </button>
             <ol className="mt-6 space-y-3">
               {REACT_TRACE.slice(0, step + 1).map((s, i) => (
