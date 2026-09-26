@@ -8,9 +8,8 @@ interface Pattern {
   id: string
   name: string
   gifLabel: string
-  summary: string
-  architecture: string[]
-  pdfNote: string
+  pdfTopic: string
+  oneLiner: string
 }
 
 interface AgentStep {
@@ -18,56 +17,108 @@ interface AgentStep {
   content: string
 }
 
-/** Six patterns matching the Habib Shaikh Agentic Design Patterns diagram. */
+interface SyllabusTopic {
+  title: string
+  detail: string
+}
+
+/** Six patterns on the teaching diagram (GIF). Keep copy short — the image shows the flow. */
 const PATTERNS: Pattern[] = [
   {
     id: 'react',
     name: 'ReAct Agent',
     gifLabel: 'REACT AGENT',
-    summary: 'Reason → Act (tools) → Observe → loop until a final answer.',
-    architecture: ['Query', 'Reason (LLM)', 'Tools', 'Observe', 'Output'],
-    pdfNote: 'In FDP PDF as “ReAct pattern”.',
+    pdfTopic: 'ReAct pattern',
+    oneLiner: 'Reason → Act (tools) → Observe → loop until a final answer.',
   },
   {
     id: 'mcp',
     name: 'Modern Tool Use (MCP)',
     gifLabel: 'MODERN TOOL USE',
-    summary: 'Agent reaches external systems through MCP servers and APIs (search, cloud, apps).',
-    architecture: ['Query', 'Agent', 'MCP servers', 'APIs / tools', 'Output'],
-    pdfNote: 'In FDP PDF as “MCP” + tool/function calling.',
+    pdfTopic: 'MCP + tool/function calling',
+    oneLiner: 'Agent reaches apps and APIs through MCP servers.',
   },
   {
     id: 'rag',
     name: 'Agentic RAG',
     gifLabel: 'AGENTIC RAG',
-    summary: 'Agent decides when to vector-search a knowledge base, then a generator answers with grounding.',
-    architecture: ['Query', 'Agent + tools', 'Vector DB', 'Generator', 'Output'],
-    pdfNote: 'In FDP PDF as “RAG agents”.',
+    pdfTopic: 'RAG agents',
+    oneLiner: 'Agent decides when to search a vector KB, then generates a grounded answer.',
   },
   {
     id: 'codeact',
     name: 'CodeAct Agent',
     gifLabel: 'CODEACT AGENT',
-    summary: 'Think → execute code in an environment → observe outcome → refine until done.',
-    architecture: ['User', 'Think', 'CodeAct', 'Environment', 'Observation', 'Result'],
-    pdfNote: 'Not named in the FDP PDF; common industry pattern (shown in the diagram).',
+    pdfTopic: 'Industry pattern (diagram); not named in FDP PDF',
+    oneLiner: 'Think → run code in an environment → observe → refine.',
   },
   {
     id: 'reflect',
     name: 'Self Reflection',
     gifLabel: 'SELF REFLECTION',
-    summary: 'Draft → critique → revise until quality is good enough, then generate the final result.',
-    architecture: ['Main LLM', 'First draft', 'Critique', 'Revise / Generator', 'Result'],
-    pdfNote: 'In FDP PDF as “Reflection / self-correction”.',
+    pdfTopic: 'Reflection / self-correction',
+    oneLiner: 'Draft → critique → revise until quality is good enough.',
   },
   {
     id: 'multi',
     name: 'Multi-Agent Workflow',
     gifLabel: 'MULTI-AGENT WORKFLOW',
-    summary: 'Orchestrator delegates to specialist sub-agents; an aggregator LLM composes the final output.',
-    architecture: ['Query', 'Supervisor agent', 'S-Agents', 'Aggregator LLM', 'Output'],
-    pdfNote: 'In FDP PDF as multi-agent / supervisor-worker / orchestration.',
+    pdfTopic: 'Multi-agent systems + orchestration',
+    oneLiner: 'Supervisor delegates to specialists; aggregator composes the final output.',
   },
+]
+
+/** PDF Module 4 topics that the diagram does not fully teach on its own. */
+const SYLLABUS_EXTRAS: SyllabusTopic[] = [
+  {
+    title: 'Planning & reasoning',
+    detail:
+      'Before acting, the agent breaks a faculty goal into steps (e.g. research → outline → activity → checklist) and revises the plan when tool results change.',
+  },
+  {
+    title: 'Memory',
+    detail:
+      'Short-term scratchpad (current turn), long-term store (course policies, past lecture packs), and retrieval so the agent does not re-ask what it already knows.',
+  },
+  {
+    title: 'Tool / function calling',
+    detail:
+      'The model emits structured calls (search, calendar, LMS, code runner). Tools return observations; the model continues. MCP is one modern way to expose those tools.',
+  },
+  {
+    title: 'Supervisor / worker & orchestration',
+    detail:
+      'A supervisor agent routes work to specialist workers (writer, critic, researcher), waits for results, and merges them — the multi-agent panel on the diagram.',
+  },
+  {
+    title: 'Human-in-the-loop',
+    detail:
+      'Pause for faculty approval before high-risk actions: publishing grades, emailing students, or citing unverified sources. Agents propose; humans decide.',
+  },
+  {
+    title: 'Guardrails',
+    detail:
+      'Policy filters, PII redaction, citation checks, rate limits, and allowed-tool lists so campus agents stay safe and compliant.',
+  },
+  {
+    title: 'State management',
+    detail: 'Track goals, scratchpad, tool results, and conversation turns so long tasks can resume or roll back.',
+  },
+  {
+    title: 'Agent evaluation',
+    detail: 'Score faithfulness, tool success rate, latency, and faculty satisfaction — not only “did it answer?”',
+  },
+  {
+    title: 'Production deployment',
+    detail: 'Logging, secrets, on-prem vs cloud, rollback, and monitoring for institutional agent apps.',
+  },
+]
+
+const ARCHITECTURE = [
+  { title: 'Goal / planner', detail: 'Planning & reasoning from the FDP syllabus.' },
+  { title: 'Memory', detail: 'Short-term + long-term context.' },
+  { title: 'Tools / MCP', detail: 'Function calling and external systems.' },
+  { title: 'Evaluator + guardrails', detail: 'Quality checks and safety rails.' },
 ]
 
 const REACT_TRACE: AgentStep[] = [
@@ -149,7 +200,7 @@ export default function Module4() {
       <ModuleHero
         moduleNumber={4}
         title="Agentic AI + Design Patterns"
-        tagline="Explore industry agent patterns with a clear diagram, then try ReAct and a live teaching agent."
+        tagline="FDP Module 4: agent fundamentals, the six design-pattern diagram, then a live ReAct-style teaching agent."
       />
       <ModuleBody>
         <div className="space-y-12">
@@ -157,22 +208,23 @@ export default function Module4() {
 
           <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-teal-ink/10">
             <h2 className="font-display text-2xl text-teal-ink">Agent architecture (fundamentals)</h2>
+            <p className="mt-2 text-sm text-ink/70">
+              From the FDP PDF: Agentic AI does not only answer — it plans, uses tools, keeps memory, and can ask for human approval.
+            </p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {['Goal / planner', 'Memory', 'Tool / function calling', 'Evaluator + guardrails'].map((item) => (
-                <div key={item} className="rounded-lg bg-teal-soft/50 px-3 py-4 text-center text-sm font-medium text-teal-ink">
-                  {item}
+              {ARCHITECTURE.map((item) => (
+                <div key={item.title} className="rounded-lg bg-teal-soft/50 px-3 py-4 text-center">
+                  <p className="text-sm font-medium text-teal-ink">{item.title}</p>
+                  <p className="mt-1 text-xs text-ink/60">{item.detail}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-4 text-sm text-ink/70">
-              Agentic AI does not only answer — it decides next steps, uses tools, manages state, and can request human approval.
-            </p>
           </section>
 
           <section>
             <h2 className="font-display text-2xl text-teal-ink">Design patterns gallery</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Visual overview of six agentic design patterns. Click a pattern below the image for a short FDP-aligned explanation.
+              The diagram is the teaching visual. Click a pattern only to map it to the FDP PDF topic name — flows stay on the image.
             </p>
 
             <figure className="mt-5 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-teal-ink/10">
@@ -202,28 +254,36 @@ export default function Module4() {
               ))}
             </div>
 
-            <div className="mt-4 rounded-xl bg-sand/50 p-5 ring-1 ring-teal-ink/10">
-              <p className="text-xs font-semibold uppercase tracking-wider text-teal-mid">On the diagram: {pattern.gifLabel}</p>
-              <h3 className="mt-1 text-xl font-semibold text-teal-ink">{pattern.name}</h3>
-              <p className="mt-2 text-ink/75">{pattern.summary}</p>
-              <p className="mt-2 text-sm text-ink/60">{pattern.pdfNote}</p>
-              <ol className="mt-4 flex flex-wrap gap-2">
-                {pattern.architecture.map((node, i) => (
-                  <li key={node} className="flex items-center gap-2 text-sm">
-                    <span className="rounded-md bg-white px-3 py-2 font-medium text-teal-ink ring-1 ring-teal-ink/10">
-                      {node}
-                    </span>
-                    {i < pattern.architecture.length - 1 && <span className="text-ink/40">→</span>}
-                  </li>
-                ))}
-              </ol>
+            <div className="mt-4 rounded-xl bg-sand/50 p-4 ring-1 ring-teal-ink/10">
+              <p className="text-xs font-semibold uppercase tracking-wider text-teal-mid">
+                On the diagram: {pattern.gifLabel}
+              </p>
+              <p className="mt-2 text-sm text-ink/80">{pattern.oneLiner}</p>
+              <p className="mt-2 text-sm text-ink/55">
+                FDP PDF topic: <span className="font-medium text-teal-ink">{pattern.pdfTopic}</span>
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="font-display text-2xl text-teal-ink">Also in the FDP PDF (not only on the diagram)</h2>
+            <p className="mt-2 text-sm text-ink/70">
+              Module 4 syllabus items beyond the six GIF panels — cover these in the session.
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {SYLLABUS_EXTRAS.map((topic) => (
+                <article key={topic.title} className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-teal-ink/10">
+                  <h3 className="font-semibold text-teal-ink">{topic.title}</h3>
+                  <p className="mt-2 text-sm text-ink/70">{topic.detail}</p>
+                </article>
+              ))}
             </div>
           </section>
 
           <section>
             <h2 className="font-display text-2xl text-teal-ink">Simulated ReAct agent</h2>
             <p className="mt-2 text-ink/70">
-              Task: “Build a lecture pack on transformers for undergraduates.” Watch Thought → Action → Observation.
+              Hands-on for the PDF “ReAct pattern”: Thought → Action → Observation on a faculty lecture-pack task.
             </p>
             <button
               type="button"
@@ -271,19 +331,6 @@ export default function Module4() {
                 <FormattedMarkdown text={agentAnswer} />
               </div>
             )}
-          </section>
-
-          <section className="grid gap-4 md:grid-cols-3">
-            {[
-              { t: 'State management', d: 'Track goals, scratchpad, tool results, and conversation turns.' },
-              { t: 'Evaluation', d: 'Score faithfulness, tool success rate, and faculty satisfaction.' },
-              { t: 'Production', d: 'Logging, rate limits, secrets, on-prem options, and rollback plans.' },
-            ].map((c) => (
-              <article key={c.t} className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-teal-ink/10">
-                <h3 className="font-semibold text-teal-ink">{c.t}</h3>
-                <p className="mt-2 text-sm text-ink/70">{c.d}</p>
-              </article>
-            ))}
           </section>
         </div>
       </ModuleBody>
