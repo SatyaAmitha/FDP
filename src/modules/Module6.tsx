@@ -105,17 +105,17 @@ const ROLE_PERMS: Record<Role, { label: string; perms: string[] }> = {
   },
 }
 
-const PDF_FEATURES = [
-  { id: 'assistant', title: 'Enterprise AI Assistant', ainl: 'New Chat · multi-agent chat with citations', screen: 'New Chat / Chats' },
-  { id: 'docintel', title: 'Document Intelligence', ainl: 'Parse 50+ formats → chunk → embed → summarize', screen: 'Documents / Library' },
+const PRODUCT_FEATURES = [
+  { id: 'assistant', title: 'Enterprise AI Assistant', ainl: 'Multi-agent chat with citations', screen: 'New Chat / Chats' },
+  { id: 'docintel', title: 'Document Intelligence', ainl: 'Parse → chunk → embed → summarize', screen: 'Documents / Library' },
   { id: 'multillm', title: 'Multi-LLM Support', ainl: 'Azure, OpenAI, Claude, Bedrock, Vertex, Ollama…', screen: 'Workspace Settings → Models' },
-  { id: 'search', title: 'Enterprise Search', ainl: 'Hybrid semantic + keyword retrieval (RRF)', screen: 'Chat-first search over Library' },
-  { id: 'kb', title: 'Knowledge Base', ainl: 'Workspace Library + Drive/OneDrive/Dropbox sync', screen: 'Documents' },
-  { id: 'rag', title: 'RAG', ainl: 'pgvector index → grounded answers with sources', screen: 'New Chat + citations' },
-  { id: 'agents', title: 'AI Agents', ainl: 'Deep agents + KB / MCP / connector tools', screen: 'Chat agents · Playground' },
-  { id: 'workflow', title: 'Workflow Automation', ainl: 'Scheduled / event automations → Slack/Notion/Jira', screen: 'Automations' },
+  { id: 'search', title: 'Enterprise Search', ainl: 'Hybrid semantic + keyword retrieval', screen: 'Chat over Library' },
+  { id: 'kb', title: 'Knowledge Base', ainl: 'Workspace Library + Drive / OneDrive sync', screen: 'Documents' },
+  { id: 'rag', title: 'RAG', ainl: 'Grounded answers with sources from indexed docs', screen: 'New Chat + citations' },
+  { id: 'agents', title: 'AI Agents', ainl: 'Agents with KB, MCP, and connector tools', screen: 'Chat agents · Playground' },
+  { id: 'workflow', title: 'Workflow Automation', ainl: 'Scheduled / event runs → Slack, Notion, Jira', screen: 'Automations' },
   { id: 'rbac', title: 'Role-Based Access Control', ainl: 'Owner / Editor / Viewer (+ custom roles)', screen: 'Team · Team Roles' },
-  { id: 'deploy', title: 'On-Premise & Cloud', ainl: 'ainexlayer.com SaaS or Docker self-host / AI Lab', screen: 'Cloud or Docker Compose' },
+  { id: 'deploy', title: 'On-Premise & Cloud', ainl: 'SaaS cloud or Docker self-host for campus', screen: 'Cloud or Docker Compose' },
 ]
 
 const USE_CASES = [
@@ -165,13 +165,13 @@ export default function Module6() {
   const [query, setQuery] = useState(SAMPLE_QUESTIONS[0])
   const [answer, setAnswer] = useState('')
   const [selectedDoc, setSelectedDoc] = useState(DOCS[0].id)
-  const [featureId, setFeatureId] = useState(PDF_FEATURES[0].id)
+  const [featureId, setFeatureId] = useState(PRODUCT_FEATURES[0].id)
   const [workflowStep, setWorkflowStep] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   const doc = DOCS.find((d) => d.id === selectedDoc)!
-  const feature = PDF_FEATURES.find((f) => f.id === featureId)!
+  const feature = PRODUCT_FEATURES.find((f) => f.id === featureId)!
 
   const ragHits = useMemo(() => {
     const terms = query.toLowerCase().split(/\W+/).filter((t) => t.length > 3)
@@ -222,16 +222,16 @@ export default function Module6() {
       <ModuleBody>
         <div className="space-y-12">
           <section className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-teal-ink/10">
-            <h2 className="font-display text-2xl text-teal-ink">From Public AI Tools → AINexLayer</h2>
+            <h2 className="font-display text-2xl text-teal-ink">From public AI tools → AINexLayer</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Public ChatGPT-class tools are fast but leave campus. AINexLayer keeps research in a <strong>workspace</strong>:
-              Library docs, cited chat, multi-LLM models, agents, and RBAC — cloud or Docker on the AI Lab.
+              Public tools are fast but data can leave campus. AINexLayer keeps work in a private workspace: documents,
+              cited chat, multi-LLM models, agents, and roles — in the cloud or self-hosted.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {[
-                { t: 'Public tools', d: 'ChatGPT / Gemini / Claude — general, data may leave campus.' },
+                { t: 'Public tools', d: 'ChatGPT / Gemini / Claude — general use; data may leave campus.' },
                 { t: 'AINexLayer workspace', d: 'Documents · New Chat · Models · Automations · Team Roles.' },
-                { t: 'AI Lab + self-host', d: 'Docker / on-prem for sensitive academic data (FDP tender path).' },
+                { t: 'Cloud or self-host', d: 'SaaS for speed, or Docker on campus for sensitive academic data.' },
               ].map((c) => (
                 <div key={c.t} className="rounded-lg bg-teal-soft/40 p-4">
                   <p className="font-semibold text-teal-ink">{c.t}</p>
@@ -242,10 +242,10 @@ export default function Module6() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">PDF demonstration map</h2>
-            <p className="mt-2 text-ink/70">Each FDP bullet maps to a real AINexLayer screen (from <code className="text-xs">dev_ainl_latest</code>).</p>
+            <h2 className="font-display text-2xl text-teal-ink">Feature map</h2>
+            <p className="mt-2 text-ink/70">Each capability maps to an AINexLayer screen you can show live.</p>
             <div className="mt-4 flex flex-wrap gap-2">
-              {PDF_FEATURES.map((f) => (
+              {PRODUCT_FEATURES.map((f) => (
                 <button
                   key={f.id}
                   type="button"
@@ -261,8 +261,8 @@ export default function Module6() {
             </div>
             <div className="mt-4 rounded-xl bg-sand/50 p-5 ring-1 ring-teal-ink/10">
               <h3 className="text-lg font-semibold text-teal-ink">{feature.title}</h3>
-              <p className="mt-2 text-sm text-ink/80"><span className="font-medium">AINexLayer:</span> {feature.ainl}</p>
-              <p className="mt-2 text-sm text-ink/80"><span className="font-medium">UI screen:</span> {feature.screen}</p>
+              <p className="mt-2 text-sm text-ink/80"><span className="font-medium">What it does:</span> {feature.ainl}</p>
+              <p className="mt-2 text-sm text-ink/80"><span className="font-medium">Where in AINexLayer:</span> {feature.screen}</p>
             </div>
           </section>
 
@@ -328,9 +328,10 @@ export default function Module6() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">New Chat — Enterprise assistant (RAG + multi-LLM)</h2>
+            <h2 className="font-display text-2xl text-teal-ink">New Chat — RAG demo</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Ask any question about the Library docs above (not only the sample). Retrieval is hybrid keyword match for this POC; AINexLayer uses full semantic + keyword RAG.
+              Ask about the library docs above. This lab retrieves matching excerpts, then answers with your selected model.
+              AINexLayer itself uses full semantic RAG with citations.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {SAMPLE_QUESTIONS.map((q) => (
@@ -429,10 +430,10 @@ export default function Module6() {
           </section>
 
           <section className="rounded-xl bg-teal-ink px-6 py-8 text-white">
-            <h2 className="font-display text-2xl">Close the FDP story</h2>
+            <h2 className="font-display text-2xl">Wrap-up</h2>
             <p className="mt-3 max-w-3xl text-white/85">
-              Campus AI Lab infrastructure + AINexLayer (cloud or Docker self-host) enables secure, institution-wide adoption:
-              private Library, cited RAG chat, multi-LLM Models, Automations, and Team Roles — beyond public consumer AI tools.
+              AINexLayer (cloud or self-hosted) supports secure campus adoption: private library, cited RAG chat,
+              multi-LLM models, automations, and team roles — beyond public consumer AI tools.
             </p>
           </section>
         </div>
