@@ -183,7 +183,7 @@ export default function Module6() {
   const handleAsk = async () => {
     setError('')
     if (role === 'viewer' && /leave|hr|rl-02/i.test(query)) {
-      setAnswer('Access denied for Viewer role. Research leave / HR documents are Editor+ only (AINexLayer Team Roles).')
+      setAnswer('Access denied for Viewer role. Research leave / HR documents are Editor+ only.')
       return
     }
 
@@ -204,7 +204,7 @@ export default function Module6() {
         ].join(' '),
         messages: [{ role: 'user', content: `Library context:\n${context}\n\nQuestion: ${query}` }],
       })
-      setAnswer(`${result.text}\n\n— AINexLayer demo · ${result.provider} · ${result.model}`)
+      setAnswer(`${result.text}\n\n— ${result.provider} · ${result.model}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ask failed')
     } finally {
@@ -242,8 +242,8 @@ export default function Module6() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">Feature map</h2>
-            <p className="mt-2 text-ink/70">Each capability maps to an AINexLayer screen you can show live.</p>
+            <h2 className="font-display text-2xl text-teal-ink">Capabilities</h2>
+            <p className="mt-2 text-ink/70">Core AINexLayer features for institutional AI.</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {PRODUCT_FEATURES.map((f) => (
                 <button
@@ -262,7 +262,7 @@ export default function Module6() {
             <div className="mt-4 rounded-xl bg-sand/50 p-5 ring-1 ring-teal-ink/10">
               <h3 className="text-lg font-semibold text-teal-ink">{feature.title}</h3>
               <p className="mt-2 text-sm text-ink/80"><span className="font-medium">What it does:</span> {feature.ainl}</p>
-              <p className="mt-2 text-sm text-ink/80"><span className="font-medium">Where in AINexLayer:</span> {feature.screen}</p>
+              <p className="mt-2 text-sm text-ink/80"><span className="font-medium">Screen:</span> {feature.screen}</p>
             </div>
           </section>
 
@@ -270,7 +270,7 @@ export default function Module6() {
 
           <section>
             <h2 className="font-display text-2xl text-teal-ink">Team Roles (RBAC)</h2>
-            <p className="mt-2 text-sm text-ink/70">AINexLayer roles: Owner · Editor · Viewer (matches product RBAC).</p>
+            <p className="mt-2 text-sm text-ink/70">Owner · Editor · Viewer</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {(Object.keys(ROLE_PERMS) as Role[]).map((r) => (
                 <button
@@ -298,7 +298,7 @@ export default function Module6() {
 
           <section>
             <h2 className="font-display text-2xl text-teal-ink">Documents / Library (Knowledge Base)</h2>
-            <p className="mt-2 text-ink/70">Sample institutional Library — click a doc for Document Intelligence excerpt.</p>
+            <p className="mt-2 text-ink/70">Institutional library — select a document to preview.</p>
             <div className="mt-4 grid gap-4 lg:grid-cols-2">
               <div className="space-y-2">
                 {DOCS.map((d) => (
@@ -328,10 +328,9 @@ export default function Module6() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">New Chat — RAG demo</h2>
+            <h2 className="font-display text-2xl text-teal-ink">New Chat — RAG</h2>
             <p className="mt-2 text-sm text-ink/70">
-              Ask about the library docs above. This lab retrieves matching excerpts, then answers with your selected model.
-              AINexLayer itself uses full semantic RAG with citations.
+              Ask about the library documents. Answers are grounded in matching excerpts with your selected model.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {SAMPLE_QUESTIONS.map((q) => (
@@ -383,7 +382,7 @@ export default function Module6() {
           </section>
 
           <section>
-            <h2 className="font-display text-2xl text-teal-ink">Workflow automation (AINexLayer Automations)</h2>
+            <h2 className="font-display text-2xl text-teal-ink">Workflow automation</h2>
             <button
               type="button"
               onClick={() => setWorkflowStep((s) => (s + 1) % WORKFLOW.length)}
