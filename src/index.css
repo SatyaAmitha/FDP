@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: #1c1c1c;
+  background: #f7f4ef;
+  min-height: 100vh;
+}
+
+.font-display {
+  font-family: 'Instrument Serif', Georgia, serif;
+}

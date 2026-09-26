@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Secrets — never commit
+.env
+.env.local
+.env.*.local
+**/service-account*.json
+**/*credentials*.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
