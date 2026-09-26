@@ -4,14 +4,6 @@ import { ProviderPicker } from '../components/ProviderPicker'
 import { FormattedMarkdown, cleanAgentText } from '../components/FormattedMarkdown'
 import { chat, type ProviderId } from '../lib/ai'
 
-interface Pattern {
-  id: string
-  name: string
-  gifLabel: string
-  pdfTopic: string
-  oneLiner: string
-}
-
 interface AgentStep {
   phase: 'Thought' | 'Action' | 'Observation' | 'Reflection' | 'Answer'
   content: string
@@ -21,52 +13,6 @@ interface SyllabusTopic {
   title: string
   detail: string
 }
-
-/** Six patterns on the teaching diagram (GIF). Keep copy short — the image shows the flow. */
-const PATTERNS: Pattern[] = [
-  {
-    id: 'react',
-    name: 'ReAct Agent',
-    gifLabel: 'REACT AGENT',
-    pdfTopic: 'ReAct pattern',
-    oneLiner: 'Reason → Act (tools) → Observe → loop until a final answer.',
-  },
-  {
-    id: 'mcp',
-    name: 'Modern Tool Use (MCP)',
-    gifLabel: 'MODERN TOOL USE',
-    pdfTopic: 'MCP + tool/function calling',
-    oneLiner: 'Agent reaches apps and APIs through MCP servers.',
-  },
-  {
-    id: 'rag',
-    name: 'Agentic RAG',
-    gifLabel: 'AGENTIC RAG',
-    pdfTopic: 'RAG agents',
-    oneLiner: 'Agent decides when to search a vector KB, then generates a grounded answer.',
-  },
-  {
-    id: 'codeact',
-    name: 'CodeAct Agent',
-    gifLabel: 'CODEACT AGENT',
-    pdfTopic: 'Industry pattern (diagram); not named in FDP PDF',
-    oneLiner: 'Think → run code in an environment → observe → refine.',
-  },
-  {
-    id: 'reflect',
-    name: 'Self Reflection',
-    gifLabel: 'SELF REFLECTION',
-    pdfTopic: 'Reflection / self-correction',
-    oneLiner: 'Draft → critique → revise until quality is good enough.',
-  },
-  {
-    id: 'multi',
-    name: 'Multi-Agent Workflow',
-    gifLabel: 'MULTI-AGENT WORKFLOW',
-    pdfTopic: 'Multi-agent systems + orchestration',
-    oneLiner: 'Supervisor delegates to specialists; aggregator composes the final output.',
-  },
-]
 
 /** PDF Module 4 topics that the diagram does not fully teach on its own. */
 const SYLLABUS_EXTRAS: SyllabusTopic[] = [
@@ -133,7 +79,6 @@ const REACT_TRACE: AgentStep[] = [
 ]
 
 export default function Module4() {
-  const [patternId, setPatternId] = useState('react')
   const [step, setStep] = useState(0)
   const [running, setRunning] = useState(false)
   const [provider, setProvider] = useState<ProviderId | ''>('')
@@ -141,8 +86,6 @@ export default function Module4() {
   const [agentMeta, setAgentMeta] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-
-  const pattern = PATTERNS.find((p) => p.id === patternId)!
 
   useEffect(() => {
     if (!running) return
@@ -224,7 +167,7 @@ export default function Module4() {
           <section>
             <h2 className="font-display text-2xl text-teal-ink">Design patterns gallery</h2>
             <p className="mt-2 text-sm text-ink/70">
-              The diagram is the teaching visual. Click a pattern only to map it to the FDP PDF topic name — flows stay on the image.
+              Six agentic design patterns for FDP Module 4 — the diagram is the teaching visual.
             </p>
 
             <figure className="mt-5 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-teal-ink/10">
@@ -237,32 +180,6 @@ export default function Module4() {
                 Agentic Design Patterns overview — used for FDP Module 4 teaching.
               </figcaption>
             </figure>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {PATTERNS.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setPatternId(p.id)}
-                  className={`rounded-md px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-mid ${
-                    patternId === p.id ? 'bg-teal-ink text-white' : 'bg-white text-teal-ink ring-1 ring-teal-ink/15'
-                  }`}
-                  aria-pressed={patternId === p.id}
-                >
-                  {p.name}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-4 rounded-xl bg-sand/50 p-4 ring-1 ring-teal-ink/10">
-              <p className="text-xs font-semibold uppercase tracking-wider text-teal-mid">
-                On the diagram: {pattern.gifLabel}
-              </p>
-              <p className="mt-2 text-sm text-ink/80">{pattern.oneLiner}</p>
-              <p className="mt-2 text-sm text-ink/55">
-                FDP PDF topic: <span className="font-medium text-teal-ink">{pattern.pdfTopic}</span>
-              </p>
-            </div>
           </section>
 
           <section>
