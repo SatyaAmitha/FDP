@@ -331,7 +331,7 @@ export default function App() {
 
               <p className="mt-6 text-sm text-white/70">
 
-                In the live FDP session, run this prompt in the real tool and compare quality, citations, and speed.
+                Open the real tool and run this prompt — compare quality, citations, and speed.
 
               </p>
 

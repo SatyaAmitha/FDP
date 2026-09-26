@@ -364,7 +364,7 @@ export default function App() {
 
           <h2 className="font-display text-2xl text-teal-ink">Academic prompt lab</h2>
 
-          <p className="mt-2 text-ink/70">Hands-on scenarios from the FDP: lesson planning through report writing.</p>
+          <p className="mt-2 text-ink/70">Practice prompts for lesson plans, questions, assignments, research, coding, and reports.</p>
 
           <div className="mt-4 flex flex-wrap gap-2">
 
